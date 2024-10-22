@@ -1,3 +1,14 @@
+// redirectLogin middleware function to check if the user is logged in or not 
+// Middleware functions are functions that have access to the request object (req), the response object (res), and the next middleware function in the application’s request-response cycle.
+const redirectLogin = (req, res, next) => {
+    if (!req.session.userId ) {
+      res.redirect('./login') // redirect to the login page
+    } else { 
+        next (); // move to the next middleware function
+    } 
+}
+
+
 // Create a new router
 const express = require("express")
 const router = express.Router()
@@ -45,7 +56,7 @@ router.post('/registered', function (req, res, next) {
 });
 
 // List all the users without showing any passwords
-router.get('/list', function (req, res, next) {
+router.get('/list', redirectLogin, function (req, res) {
     // Get user data without the hashed passowrd 
     let sqlquery = "SELECT username, first_name, last_name, email FROM users" // Exclude the hashedPassword
     db.query(sqlquery, (err, result) => {
@@ -88,6 +99,8 @@ router.post('/loggedin', function (req, res, next) {
                 return next(err); // Handles any errors during the comparison between entered password and database password
             }
             else if (result === true) {
+                // Save user session here, when login is successful 
+                req.session.userId = req.body.username;
                 // Login was successful
                 return res.send('Login was successful! Welcome back, ' + req.body.username + '!');
             }
@@ -98,6 +111,15 @@ router.post('/loggedin', function (req, res, next) {
         });
     });
 });
+
+router.get('/logout', redirectLogin, (req,res) => {
+    req.session.destroy(err => {
+    if (err) {
+      return res.redirect('./')
+    }
+    res.send('you are now logged out. <a href='+'../'+'>Home</a>');
+    })
+})
 
 // Export the router object so index.js can access it
 module.exports = router

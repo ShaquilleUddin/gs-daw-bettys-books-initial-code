@@ -1,3 +1,13 @@
+// redirectLogin middleware function to check if the user is logged in or not 
+// Middleware functions are functions that have access to the request object (req), the response object (res), and the next middleware function in the application’s request-response cycle.
+const redirectLogin = (req, res, next) => {
+    if (!req.session.userId ) {
+      res.redirect('/users/login') // redirect to the login page
+    } else { 
+        next (); // move to the next middleware function
+    } 
+}
+
 const express = require("express")
 const router = express.Router()
 
@@ -17,8 +27,7 @@ router.get('/search_result', function (req, res, next) {
      }) 
 })
 
-
-router.get('/list', function(req, res, next) {
+router.get('/list', redirectLogin, function (req, res) {
     let sqlquery = "SELECT * FROM books" // query database to get all the books
     // execute sql query
     db.query(sqlquery, (err, result) => {

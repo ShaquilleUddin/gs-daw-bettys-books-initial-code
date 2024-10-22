@@ -6,11 +6,20 @@ var ejs = require('ejs')
 var mysql = require('mysql2')
 
 // Import express-session module
-var session = require ('express-session')
+var session = require ('express-session') 
+
+// Import express-validator module
+var validator = require ('express-validator');
 
 // Create the express application object
 const app = express()
 const port = 8000
+
+// Import express-sanitizer module
+const expressSanitizer = require('express-sanitizer');
+
+// Create an input sanitizer
+app.use(expressSanitizer());
 
 // Tell Express that we want to use EJS as the templating engine
 app.set('view engine', 'ejs')
@@ -63,4 +72,4 @@ const booksRoutes = require('./routes/books')
 app.use('/books', booksRoutes)
 
 // Start the web app listening
-app.listen(port, () => console.log(`Node app listening on port ${port}!`))
+app.listen(port, () => console.log(`Node app listening on port ${port}!`)) 

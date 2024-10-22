@@ -8,7 +8,6 @@ const redirectLogin = (req, res, next) => {
     } 
 }
 
-
 // Create a new router
 const express = require("express")
 const router = express.Router()
@@ -17,11 +16,18 @@ const router = express.Router()
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 
+// Import express-validator module
+const { check, validationResult } = require('express-validator');
+
 router.get('/register', function (req, res, next) {
     res.render('register.ejs')                                                               
 })    
 
-router.post('/registered', function (req, res, next) {
+router.post('/registered', [check('email').isEmail()], function (req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.redirect('./register'); }
+    else { 
     // Hashing the password
     const plainPassword = req.body.password
     bcrypt.hash(plainPassword, saltRounds, function(err, hashedPassword) {
@@ -34,10 +40,10 @@ router.post('/registered', function (req, res, next) {
         
         // Collecting the user's data from the form and then storing it
         let newUser = [
-            req.body.username,
-            req.body.first,
-            req.body.last,
-            req.body.email,
+            req.sanitize(req.body.username),
+            req.sanitize(req.body.first),
+            req.sanitize(req.body.last),
+            req.sanitize(req.body.email),
             hashedPassword // Storing the hashed password
         ]
 
@@ -48,12 +54,12 @@ router.post('/registered', function (req, res, next) {
             }
 
             // saving data in database
-            let message = 'Hello '+ req.body.first + ' '+ req.body.last +' you are now registered!  We will send an email to you at ' + req.body.email
-            message += '. Your password is: '+ req.body.password +' and your hashed password is: '+ hashedPassword
+            let message = 'Hello '+ req.sanitize(req.body.first) + ' '+ req.sanitize(req.body.last) +' you are now registered!  We will send an email to you at ' + req.sanitize(req.body.email)
+            message += '. Your password is: '+ req.sanitize(req.body.password) +' and your hashed password is: '+ hashedPassword
             res.send(message)
         });
     });
-});
+}});
 
 // List all the users without showing any passwords
 router.get('/list', redirectLogin, function (req, res) {

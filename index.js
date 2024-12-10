@@ -71,9 +71,5 @@ app.use('/users', usersRoutes)
 const booksRoutes = require('./routes/games')
 app.use('/games', booksRoutes)
 
-// Load the route handlers for /api 
-const apiRoutes = require('./routes/api')
-app.use('/api', apiRoutes)
-
 // Start the web app listening
 app.listen(port, () => console.log(`Node app listening on port ${port}!`)) 

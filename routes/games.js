@@ -17,34 +17,34 @@ router.get('/search',function(req, res, next){
 
 router.get('/search_result', function (req, res, next) {
     // Search the database
-    let sqlquery = "SELECT * FROM books WHERE name LIKE '%" + req.query.search_text + "%'" // query database to get all the books
+    let sqlquery = "SELECT * FROM games WHERE name LIKE '%" + req.query.search_text + "%'" // query database to get all the games
     // execute sql query
     db.query(sqlquery, (err, result) => {
         if (err) {
             next(err)
         }
-        res.render("list.ejs", {availableBooks:result})
+        res.render("list.ejs", {availableGames:result})
      }) 
 })
 
 router.get('/list', redirectLogin, function (req, res) {
-    let sqlquery = "SELECT * FROM books" // query database to get all the books
+    let sqlquery = "SELECT * FROM games" // query database to get all the games
     // execute sql query
     db.query(sqlquery, (err, result) => {
         if (err) {
             next(err)
         }
-        res.render("list.ejs", {availableBooks:result})
+        res.render("list.ejs", {availableGames:result})
      })
 })
 
-router.get('/addbook', function (req, res, next) {
-    res.render('addbook.ejs')
+router.get('/addgame', function (req, res, next) {
+    res.render('addgame.ejs')
 })
 
-router.post('/bookadded', function (req, res, next) {
+router.post('/gamesadded', function (req, res, next) {
     // saving data in database
-    let sqlquery = "INSERT INTO books (name, price) VALUES (?,?)"
+    let sqlquery = "INSERT INTO games (name, price) VALUES (?,?)"
     // execute sql query
     let newrecord = [req.body.name, req.body.price]
     db.query(sqlquery, newrecord, (err, result) => {
@@ -52,17 +52,17 @@ router.post('/bookadded', function (req, res, next) {
             next(err)
         }
         else
-            res.send(' This book is added to database, name: '+ req.body.name + ' price '+ req.body.price)
+            res.send(' This game is added to database, name: '+ req.body.name + ' price '+ req.body.price)
     })
 }) 
 
-router.get('/bargainbooks', function(req, res, next) {
-    let sqlquery = "SELECT * FROM books WHERE price < 20"
+router.get('/bargaingames', function(req, res, next) {
+    let sqlquery = "SELECT * FROM games WHERE price < 20"
     db.query(sqlquery, (err, result) => {
         if (err) {
             next(err)
         }
-        res.render("bargains.ejs", {availableBooks:result})
+        res.render("bargains.ejs", {availableGames:result})
     })
 }) 
 

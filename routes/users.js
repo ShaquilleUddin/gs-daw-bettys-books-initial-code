@@ -107,8 +107,14 @@ router.post('/loggedin', function (req, res, next) {
             else if (result === true) {
                 // Save user session here, when login is successful 
                 req.session.userId = req.body.username;
-                // Login was successful
-                return res.send('Login was successful! Welcome back, ' + req.body.username + '!');
+                
+                // Respond with a success message and include a button to redirect back to the homepage
+                return res.send(`
+                    <h2>Login was successful! Welcome back, ${req.body.username}!</h2>
+                    <form action="/" method="get">
+                        <button type="submit">Go to Home</button>
+                    </form>
+                `);
             }
             else {
                 // Login was failed
@@ -118,6 +124,7 @@ router.post('/loggedin', function (req, res, next) {
     });
 });
 
+// Logout route
 router.get('/logout', redirectLogin, (req,res) => {
     req.session.destroy(err => {
     if (err) {
@@ -125,7 +132,12 @@ router.get('/logout', redirectLogin, (req,res) => {
     }
     res.send('you are now logged out. <a href='+'../'+'>Home</a>');
     })
-})
+});
+
+// Home route (to render the index.ejs page)
+router.get('/', (req, res) => {
+    res.render('index.ejs');
+});
 
 // Export the router object so index.js can access it
-module.exports = router
+module.exports = router;

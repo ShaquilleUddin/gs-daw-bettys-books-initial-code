@@ -57,7 +57,7 @@ db.connect((err) => {
 global.db = db
 
 // Define our application-specific data
-app.locals.shopData = {shopName: "Bettys Books"}
+app.locals.shopData = {shopName: "Shaq's Game Shop"}
 
 // Load the route handlers
 const mainRoutes = require("./routes/main")
@@ -68,8 +68,8 @@ const usersRoutes = require('./routes/users')
 app.use('/users', usersRoutes)
 
 // Load the route handlers for /books
-const booksRoutes = require('./routes/books')
-app.use('/books', booksRoutes)
+const booksRoutes = require('./routes/games')
+app.use('/games', booksRoutes)
 
 // Load the route handlers for /api 
 const apiRoutes = require('./routes/api')

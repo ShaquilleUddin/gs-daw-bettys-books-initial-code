@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Check Weather</title>
+    <title>Add game to <%=shopData.shopName%></title>
     <link rel="stylesheet" type="text/css" href="/main.css" />
   </head>
   <body>
@@ -15,12 +15,11 @@
     </div>
 
     <!-- Main Content -->
-    <h1>Check the Weather</h1>
-    <h2>We have stores in every city within the UK!</h2> 
-    <p>Enter the city name to check the weather:</p>
-    <form method="POST" action="/weather">
-        <p>City Name: <input id="city" type="text" name="city" required /></p>
-        <input type="submit" value="Get Weather" />
+    <h1><%=shopData.shopName%>: Add game</h1>
+    <form method="POST" action="/gameadded">
+        <p>Game name: <input id="name" type="text" name="name" value="" /></p>
+        <p>Price: <input id="price" type="text" name="price" value="" /></p>
+        <input type="submit" value="Add Game" />
     </form>
   </body>
 </html>

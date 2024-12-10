@@ -1,12 +1,12 @@
 <!doctype html>
 <html>
   <head>
-    <title>Welcome to <%=shopData.shopName%></title>
+    <title>Welcome to <%= shopData.shopName %></title>
     <link rel="stylesheet" type="text/css" href="/main.css" />
   </head>
   <body>
     <!-- Taskbar Header -->
-    <div class="taskbar"> 
+    <div class="taskbar">
       <a href="/">Home</a>
       <a href="users/login">Login</a>
       <a href="users/logout">Logout</a>
@@ -15,13 +15,14 @@
     </div>
 
     <!-- Main Content -->
-    <h1>Welcome to <%=shopData.shopName%></h1>
+    <h1>Welcome to <%= shopData.shopName %></h1>
     <h2>Here are some of the things you can do:</h2>
     <p><a href="games/search">Search for games</a></p>
     <p><a href="games/addgame">Add a new game</a></p>
     <p><a href="games/bargaingames">Bargain games</a></p>
     <p><a href="users/register">Register with us</a></p>
     <p><a href="users/list">List of users</a></p>
-    <p><a href="weather">Check Weather</a></p>    
+    <p><a href="weather">Check Weather</a></p>
+    <p><a href="currency/currencyconvert">Currency Converter</a></p>
   </body>
 </html>

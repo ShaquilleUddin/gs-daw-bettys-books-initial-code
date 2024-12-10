@@ -43,9 +43,9 @@ app.use(session({
 // Define the database connection
 const db = mysql.createConnection({
     host: 'localhost',
-    user: 'bettys_books_app',
+    user: 'shaqsgamestore',
     password: 'qwertyuiop',
-    database: 'bettys_books'
+    database: 'shaqsgamestore'
 });
 // Connect to the database
 db.connect((err) => {
